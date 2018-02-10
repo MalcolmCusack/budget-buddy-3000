@@ -1,4 +1,4 @@
-var budget;
+var budget = 0;
 
 class Category {
   constructor(name, amount) {
@@ -26,7 +26,12 @@ $(document).ready(function() {
     name = $(".category-name").val();
     amount = $(".category-amount").val();
     categories.push(new Category(name, amount));
-    console.log(categories);
+    $(".category-name").val("");
+    $(".category-amount").val("");
+  });
+
+  $(".set-budget").click(() => {
+    budget = parseFloat($(".budget-amount").val());
   });
 });
 categories.push(new Category("oou", 4));
