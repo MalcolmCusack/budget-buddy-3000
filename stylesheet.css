@@ -1,0 +1,4 @@
+.make-category {
+  display: flex;
+  flex-direction: row;
+}
