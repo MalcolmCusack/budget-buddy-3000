@@ -65,11 +65,13 @@ function updateTotalBudget() {
 
 function removeCategory(index) {
   $(`.item:nth-child(${index + 1})`).remove();
+  totalBudget = totalBudget - categories[index].amount;
+  updateTotalBudget();
   categories.splice(index, 1);
 }
 
 $(document).ready(function() {
-
+  updateTotalBudget();
   $(".make-category").click(function() {
     name = $("#category-name").val();
     amount = parseFloat($("#category-amount").val());
@@ -86,11 +88,3 @@ $(document).ready(function() {
     removeCategory(index);
   });
 });
-
-
-
-
-
-
-
-// categories[i].render();
