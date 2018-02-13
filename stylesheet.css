@@ -2,3 +2,9 @@
   display: flex;
   flex-direction: row;
 }
+
+.categories-page button {
+  display: inline;
+  text-align: center;
+  width: 30px;
+}

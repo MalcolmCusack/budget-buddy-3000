@@ -1,18 +1,3 @@
-var budget = 0;
-
-
-//
-//
-// const homePage = $("home-page");
-// homePage.empty();
-// homePage.append(home.render());
-//
-// const dataPage = $("data-page");
-// dataPage.empty();
-// dataPage.append(data.render());
-
-
-
 var categories = [];
 var totalBudget = 0;
 
@@ -26,7 +11,7 @@ class Category {
   getCategory() {
     var string =
       `<div class="item">
-            <button class="remove-button">Remove</button>
+            <button class="remove-button">-</button>
             <span class="category-name">${this.name}</span>
             <span class="category-amount">$${this.amount}</span>
           </div>`;
@@ -50,11 +35,6 @@ class Category {
   // }
 }
 
-
-
-
-
-
 var name;
 var amount;
 var index = 0;
@@ -72,6 +52,8 @@ function removeCategory(index) {
 
 $(document).ready(function() {
   updateTotalBudget();
+
+  // ADD BUTTON
   $(".make-category").click(function() {
     name = $("#category-name").val();
     amount = parseFloat($("#category-amount").val());
@@ -81,8 +63,17 @@ $(document).ready(function() {
     $("#category-name").val("");
     $("#category-amount").val("");
     $(".categories-list").append(categories[categories.length - 1].getCategory());
+    $("#category-name").focus(); // Cursor auto-moves to 'name' input.
   });
 
+  // 'ENTER' KEY CLICKS THE 'ADD' BUTTON. 
+  $("#category-amount").keyup(function(e) {
+    if (e.keyCode === 13) {
+      $(".make-category").click();
+    }
+  });
+
+  // REMOVE BUTTON
   $(document).on("click", ".remove-button", function() {
     index = $(".remove-button").index(this);
     removeCategory(index);
