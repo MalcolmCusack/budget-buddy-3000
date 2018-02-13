@@ -13,18 +13,14 @@ var budget = 0;
 
 
 
-const categories = [];
+var categories = [];
 var totalBudget = 0;
 
 class Category {
-  constructor(name, amount) {
+  constructor(name, amount, index) {
     this.name = name;
     this.amount = amount;
-    this.categoryNumber = null;
-  }
-
-  setCategoryNumber(categoryNumber) {
-    this.categoryNumber = categoryNumber
+    this.index = index;
   }
 
   getCategory() {
@@ -37,6 +33,7 @@ class Category {
 
     return string;
   }
+
 
   // render() {
   //   categoryString =
@@ -60,45 +57,35 @@ class Category {
 
 var name;
 var amount;
-var index;
+var index = 0;
 
 function updateTotalBudget() {
   $(".totalBudget").text(`Your total budget is $${totalBudget}`);
 }
 
-function removeCategory() {
-  console.log("Hey");
-  console.log(categories);
-  var index = $("button").index() + 1;
-  console.log(index);
-  $(`.item:nth-child(${index})`).remove();
-  categories.splice($(".category").index(), 1);
+function removeCategory(index) {
+  $(`.item:nth-child(${index + 1})`).remove();
+  categories.splice(index, 1);
 }
 
 $(document).ready(function() {
-  $(".make-category").click(() => {
+
+  $(".make-category").click(function() {
     name = $("#category-name").val();
     amount = parseFloat($("#category-amount").val());
     totalBudget = totalBudget + amount;
     updateTotalBudget();
-    categories.push(new Category(name, amount));
-    categories[categories.length - 1].setCategoryNumber(categories.length);
-    console.log(categories);
+    categories.push(new Category(name, amount, index));
     $("#category-name").val("");
     $("#category-amount").val("");
     $(".categories-list").append(categories[categories.length - 1].getCategory());
+  });
 
-
-    $(".remove-button").click(() => {
-      //   index = $(".remove-button").index();
-      //   console.log($(`.item:nth-child`);
-      //   $(`.item:nth-child(${$(".category").index()})`).remove();
-      removeCategory();
-    });
+  $(document).on("click", ".remove-button", function() {
+    index = $(".remove-button").index(this);
+    removeCategory(index);
   });
 });
-
-
 
 
 
