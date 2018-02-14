@@ -20,7 +20,33 @@
   height: 20px;
   margin: 0px;
   background-color: rgb(61, 242, 57);
-  width: 100%;
+  width: 0%;
   transition: width 1s, background-color 1s;
   box-shadow: inset 0 -10px 40px -10px #000000;
+}
+
+.bar-graph {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+}
+.bar {
+  width: 30px;
+  background-color: #FFF;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px black solid;
+}
+
+.spent-bar {
+  width: 30px;
+  margin: 0px;
+  background-color: rgb(61, 242, 57);
+  height: 0%;
+  transition: width 1s, background-color 1s;
+  box-shadow: inset 0 -10px 40px -10px #000000;
+  align-self: flex-end;
 }

@@ -7,12 +7,14 @@ class Category {
     this.name = name;
     this.amount = amount;
     this.index = index;
+    this.spent = 0;
   }
 
   getAmount(spent) {
-    this.amount = this.amount + spent;
+    this.spent = this.spent + spent;
     spentBudget = spentBudget + spent;
     updateTotalBudget();
+    $(".total-spent").text(`$${this.spent} / $${this.amount}`);
   }
 
   getCategory() {
@@ -27,10 +29,29 @@ class Category {
   }
 
   createButton() {
-    console.log("inside");
-    $(".home-category-list").append(`<div><button class="category-button">${this.name}</button></div>`);
+    $(".home-category-list").append(`
+      <div>
+        <button class="category-button">${this.name}</button>
+
+      </div>`);
+  }
+
+  renderBarGraph() {
+    $(".bar-graph").append(`
+      <div class= "bar" id="bar-${this.name}">
+        <div class = "percent" id="percent-${this.name}">
+          ${this.spent} / ${this.amount}
+        </div>
+        <div class="spent-bar" id="spent-bar-${this.name}">
+        </div>
+      </div>
+      `);
+    $(`#bar-${this.name}`).css("height", "500px");
+    $(`#spent-bar-${this.name}`).css("height", percent(this.spent, this.amount));
   }
 }
+
+// <span class = "total-spent">$${this.amount} / ${this.amount}</span>
 
 var name;
 var amount;
@@ -45,12 +66,27 @@ function displayCategory() {
   categories.map(category => category.createButton());
 }
 
+function percent(spent, total) {
+  var percent = (100 * spent / total);
+  return percent.toString() + "%";
+}
+
+function updateBudgetBar() {
+  $(".budget-text").text = spentBudget + " / " + totalBudget;
+  $(".remaining-budget-bar").css("width", percent(spentBudget, totalBudget));
+  // $(".remaining-budget-bar").css("background-color", setBarColor());
+}
 
 function removeCategory(index) {
   $(`.item:nth-child(${index + 1})`).remove();
   totalBudget = totalBudget - categories[index].amount;
   updateTotalBudget();
   categories.splice(index, 1);
+}
+
+//GRAPH
+function updateGraph() {
+  categories.map(category => category.renderBarGraph());
 }
 
 $(document).ready(function() {
@@ -67,6 +103,8 @@ $(document).ready(function() {
     $("#category-amount").val("");
     $(".categories-list").append(categories[categories.length - 1].getCategory());
     $("#category-name").focus(); // Cursor auto-moves to 'name' input.
+
+
   });
 
   // 'ENTER' KEY CLICKS THE 'ADD' BUTTON.
@@ -84,9 +122,22 @@ $(document).ready(function() {
 
   // spent button
   $(document).on("click", ".category-button", function() {
-    spent = parseFloat($("#spent").val());
-    index = $(".category-button").index(this);
-    categories[index].getAmount(spent);
+    $(".message-box").text("");
+    var spentInput = $("#spent").val();
+    if (spentInput === "") {
+      $(".message-box").text("Enter Amount, Then Click! Stupid Idiot");
+    } else if (!$.isNumeric(spentInput)) {
+      console.log(spentInput);
+      $(".message-box").text("You Must Enter a Number");
+    } else if (parseFloat(spentInput) + spentBudget > totalBudget) {
+      $(".message-box").text("This is over your budget!");
+    } else {
+      spent = parseFloat($("#spent").val());
+      index = $(".category-button").index(this);
+      categories[index].getAmount(spent);
+      updateBudgetBar();
+
+    }
   });
 
   // HOME BUTTON
@@ -94,20 +145,16 @@ $(document).ready(function() {
     displayCategory();
     updateTotalBudget();
   });
+
+  // DATA BUTTON
+  $(document).on("click", "#to-data", function() {
+    $(".bar-graph").empty();
+    updateGraph();
+  });
+
+
+
+
+
+
 });
-
-
-
-// percentHealth() {
-//   return (100 * spentBudget / totalBudget);
-// }
-//
-// percentHealthStr() { // Needed for health-bar width
-//   return this.percentHealth().toString() + "%";
-// }
-
-// function checkHealth() {
-//   document.getElementById("player-health-text").innerText = player.health.toString() + " / " + player.maxHealth.toString();
-//   document.getElementsByClassName("remaining-health-bar")[1].style.width = player.percentHealthStr();
-//   document.getElementsByClassName("remaining-health-bar")[1].style.background = player.setHealthColor();
-// }
