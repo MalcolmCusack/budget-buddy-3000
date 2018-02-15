@@ -1,6 +1,43 @@
+body {
+  margin: 0;
+  color: #FFF;
+  font-family: 'Oswald', sans-serif;
+  background-color: #22252C;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #3F3250;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-content, .setup-content, .data-content {
+  width: 500px;
+  background-color: #3F3250;
+  padding: 10px;
+  text-align: center;
+  height: 400px;
+}
+
 .make-category {
   display: flex;
   flex-direction: row;
+}
+
+.stat {
+  color: #000;
 }
 
 .categories-page button {
@@ -10,10 +47,11 @@
 }
 
 .budget-bar {
-  min-width: 300px;
+  width: 300px;
   height: 20px;
-  background-color: #FFF;
+  background-color: #E14656;
   margin: 0px;
+  border: solid 1px:
 }
 
 .remaining-budget-bar {
@@ -33,6 +71,7 @@
 }
 .bar {
   width: 30px;
+  max-height: 250px;
   background-color: #FFF;
   margin: 0px;
   display: flex;

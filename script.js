@@ -28,18 +28,27 @@ class Category {
     return string;
   }
 
+  updateSpent() {
+    $().append(`<div class = "percent">
+      ${this.spent} / ${this.amount}
+    </div>`)
+  }
+
   createButton() {
+
     $(".home-category-list").append(`
       <div>
         <button class="category-button">${this.name}</button>
-
+        <span class = "spent-label">
+          ${this.spent} / ${this.amount}
+        </span>
       </div>`);
   }
 
   renderBarGraph() {
     $(".bar-graph").append(`
       <div class= "bar" id="bar-${this.name}">
-        <div class = "percent" id="percent-${this.name}">
+        <div class = "stat" id="stat-${this.name}">
           ${this.spent} / ${this.amount}
         </div>
         <div class="spent-bar" id="spent-bar-${this.name}">
@@ -63,6 +72,7 @@ function updateTotalBudget() {
 }
 
 function displayCategory() {
+  $(".home-category-list").empty();
   categories.map(category => category.createButton());
 }
 
@@ -140,6 +150,7 @@ $(document).ready(function() {
       index = $(".category-button").index(this);
       categories[index].getAmount(spent);
       updateBudgetBar();
+      displayCategory();
 
     }
   });
