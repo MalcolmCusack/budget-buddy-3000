@@ -59,7 +59,7 @@ var index = 0;
 var spent;
 
 function updateTotalBudget() {
-  $(".totalBudget").text(`Your budget remaining is $${spentBudget} out of $${totalBudget}`);
+  $(".total-budget").text(`Your budget remaining is $${spentBudget} out of $${totalBudget}`);
 }
 
 function displayCategory() {
@@ -94,6 +94,10 @@ $(document).ready(function() {
 
   // ADD BUTTON
   $(".make-category").click(function() {
+    // if ($("#category-name").val() === category.name)  {
+    //
+    // } else {
+
     name = $("#category-name").val();
     amount = parseFloat($("#category-amount").val());
     totalBudget = totalBudget + amount;
@@ -103,7 +107,7 @@ $(document).ready(function() {
     $("#category-amount").val("");
     $(".categories-list").append(categories[categories.length - 1].getCategory());
     $("#category-name").focus(); // Cursor auto-moves to 'name' input.
-
+// }
 
   });
 
@@ -151,10 +155,4 @@ $(document).ready(function() {
     $(".bar-graph").empty();
     updateGraph();
   });
-
-
-
-
-
-
 });
