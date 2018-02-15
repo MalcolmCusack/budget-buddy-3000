@@ -1,20 +1,18 @@
 var categories = [];
 var totalBudget = 0;
-var spentBudget = 0;
+var totalSpent = 0;
 
 class Category {
-  constructor(name, amount, index) {
+  constructor(name, budget, index) {
     this.name = name;
-    this.amount = amount;
+    this.budget = budget;
     this.index = index;
     this.spent = 0;
   }
 
-  getAmount(spent) {
+  spend(spent) {
     this.spent = this.spent + spent;
-    spentBudget = spentBudget + spent;
-    updateTotalBudget();
-    $(".total-spent").text(`$${this.spent} / $${this.amount}`);
+    $(".total-spent").text(`$${this.spent} / $${this.budget}`);
   }
 
   getCategory() {
@@ -22,16 +20,10 @@ class Category {
       `<div class="item">
             <button class="remove-button">-</button>
             <span class="category-name">${this.name}</span>
-            <span class="category-amount">$${this.amount}</span>
+            <span class="category-budget">$${this.budget}</span>
           </div>`;
 
     return string;
-  }
-
-  updateSpent() {
-    $().append(`<div class = "percent">
-      ${this.spent} / ${this.amount}
-    </div>`)
   }
 
   createButton() {
@@ -40,7 +32,7 @@ class Category {
       <div>
         <button class="category-button">${this.name}</button>
         <span class = "spent-label">
-          ${this.spent} / ${this.amount}
+          ${this.spent} / ${this.budget}
         </span>
       </div>`);
   }
@@ -49,29 +41,38 @@ class Category {
     $(".bar-graph").append(`
       <div class= "bar" id="bar-${this.name}">
         <div class = "stat" id="stat-${this.name}">
-          ${this.spent} / ${this.amount}
+          ${this.spent} / ${this.budget}
         </div>
         <div class="spent-bar" id="spent-bar-${this.name}">
         </div>
       </div>
       `);
     $(`#bar-${this.name}`).css("height", "500px");
-    $(`#spent-bar-${this.name}`).css("height", percent(this.spent, this.amount));
+    $(`#spent-bar-${this.name}`).css("height", percent(this.spent, this.budget));
   }
 }
 
-// <span class = "total-spent">$${this.amount} / ${this.amount}</span>
+// <span class = "total-spent">$${this.budget} / ${this.budget}</span>
 
 var name;
-var amount;
+var budget;
 var index = 0;
 var spent;
 
-function updateTotalBudget() {
-  $(".total-budget").text(`Your budget remaining is $${spentBudget} out of $${totalBudget}`);
+function updateAll() {
+  updateTotalBudget();
+  updateBudgetBar();
+  updateCategories();
+  updateGraph();
 }
 
-function displayCategory() {
+function updateTotalBudget() {
+  totalSpent = categories.reduce((prevVal, elem) => prevVal + elem.spent, 0);
+  totalBudget = categories.reduce((prevVal, elem) => prevVal + elem.budget, 0);
+  $(".total-budget").text(`Your budget remaining is $${totalSpent} out of $${totalBudget}`);
+}
+
+function updateCategories() {
   $(".home-category-list").empty();
   categories.map(category => category.createButton());
 }
@@ -82,47 +83,62 @@ function percent(spent, total) {
 }
 
 function updateBudgetBar() {
-  $(".budget-text").text = spentBudget + " / " + totalBudget;
-  $(".remaining-budget-bar").css("width", percent(spentBudget, totalBudget));
+  $(".budget-text").text = totalSpent + " / " + totalBudget;
+  $(".remaining-budget-bar").css("width", percent(totalSpent, totalBudget));
   // $(".remaining-budget-bar").css("background-color", setBarColor());
 }
 
 function removeCategory(index) {
   $(`.item:nth-child(${index + 1})`).remove();
-  totalBudget = totalBudget - categories[index].amount;
-  updateTotalBudget();
+  totalBudget = totalBudget - categories[index].budget;
   categories.splice(index, 1);
+  updateAll();
+}
+
+function checkDuplicateName(name) {
+  var duplicate = categories.filter(category => (category.name === name));
+  console.log(duplicate);
+  if (duplicate.length > 0) {
+    return true;
+  }
+  else {
+    return false
+  }
 }
 
 //GRAPH
 function updateGraph() {
+  $(".bar-graph").empty();
   categories.map(category => category.renderBarGraph());
 }
 
 $(document).ready(function() {
-  updateTotalBudget();
+  updateAll();
 
   // ADD BUTTON
   $(".make-category").click(function() {
-    // if ($("#category-name").val() === category.name)  {
-    //
-    // } else {
-
     name = $("#category-name").val();
-    amount = parseFloat($("#category-amount").val());
-    totalBudget = totalBudget + amount;
-    updateTotalBudget();
-    categories.push(new Category(name, amount, index));
-    $("#category-name").val("");
-    $("#category-amount").val("");
-    $(".categories-list").append(categories[categories.length - 1].getCategory());
-    $("#category-name").focus(); // Cursor auto-moves to 'name' input.
-// }
-
+    budget = parseFloat($("#category-budget").val());
+    if (checkDuplicateName(name) === false && budget !== NaN && budget > 0) {
+      categories.push(new Category(name, budget, index));
+      updateAll();
+      $("#category-name").val("");
+      $("#category-budget").val("");
+      $(".categories-list").append(categories[categories.length - 1].getCategory());
+      $("#category-name").focus();
+    } else {
+      console.log("Please enter a unique category name and a positive number for the budget.");
+    }
   });
 
   // 'ENTER' KEY CLICKS THE 'ADD' BUTTON.
-  $("#category-amount").keyup(function(e) {
+  $("#category-name").keyup(function(e) {
+    if (e.keyCode === 13) {
+      $(".make-category").click();
+    }
+  });
+
+  $("#category-budget").keyup(function(e) {
     if (e.keyCode === 13) {
       $(".make-category").click();
     }
@@ -143,23 +159,18 @@ $(document).ready(function() {
     } else if (!$.isNumeric(spentInput)) {
       console.log(spentInput);
       $(".message-box").text("You Must Enter a Number");
-    } else if (parseFloat(spentInput) + spentBudget > totalBudget) {
+    } else if (parseFloat(spentInput) + totalSpent > totalBudget) {
       $(".message-box").text("This is over your budget!");
     } else {
       spent = parseFloat($("#spent").val());
       index = $(".category-button").index(this);
-      categories[index].getAmount(spent);
-      updateBudgetBar();
-      displayCategory();
-
+      categories[index].spend(spent);
+      updateAll();
     }
   });
 
   // HOME BUTTON
-  $(document).on("click", "#to-home", function() {
-    displayCategory();
-    updateTotalBudget();
-  });
+  $(document).on("click", "#to-home", function() {});
 
   // DATA BUTTON
   $(document).on("click", "#to-data", function() {
