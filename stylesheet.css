@@ -8,6 +8,8 @@ body {
   background-color: #3D6F83;
 }
 
+/* GLOBAL */
+
 .page {
   display: flex;
   flex-direction: column;
@@ -65,9 +67,8 @@ body {
 .budget-bar {
   width: 250px;
   height: 30px;
-  background-color: ;
+  background-color: #3D6F83;
   margin: 10px 0px;
-  border: solid 1px:
 }
 
 .remaining-budget-bar {
@@ -88,6 +89,7 @@ body {
   display: block;
   height: 280px;
   overflow: auto;
+  margin: 0 auto;
 }
 
 .bar {
@@ -126,92 +128,6 @@ body {
   }
 }
 
-#category-name, #category-budget {
-  width: 100px;
-}
-
-.make-category, .remove-button {
-  width: 30px;
-  border: none;
-  margin: 5px 0px;
-}
-
-.categories-list {
-  display: block
-}
-
-.item {
-  line-height: 44px;
-  width: 100%;
-  margin: 5px 0px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
- .category-item {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
- }
-
-.category-name {
-  flex: 2;
-  text-align: left;
-  margin-left: 15px;
-}
-
-.category-budget, .spent-label, .budget-label {
-  flex: 1;
-  justify-content: flex-end;
-  text-align: right;
-  margin-right: 20px;
-}
-
-.setup-labels {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-}
-
-.name-label {
-  margin-left: 40px;
-  text-align: left;
-}
-
-.budget-label {
-  margin-left: 80px;
-  text-align: left;
-}
-
-.setup-message, .message-box {
-  text-align: center;
-  height: 25px;
-  color: #e04e32;
-}
-
-/* NAV */
-
-.nav {
-  display: flex;
-  background-color: #E3ECC3;
-  justify-content: center;
-  align-self: center;
-  justify-content: center;
-  height: 50px;
-  padding: 20px 10px;
-}
-
-#to-home, #to-setup, #to-data {
-  background-color: #629041;
-  width: 100px;
-  height: 50px;
-  border: none;
-  color: inherit;
-  margin: 0px 20px;
-  font-size: 25px;
-}
-
 input {
   color: #0E232C;
   background-color: #FFF;
@@ -242,6 +158,13 @@ button:hover {
   -webkit-transition: 0.3s;
 }
 
+.setup-message, .message-box {
+  text-align: center;
+  height: 25px;
+  color: #e04e32;
+}
+
+/* HOME */
 .category-button {
   flex-shrink: 0;
   height: 44px;
@@ -252,8 +175,135 @@ button:hover {
   line-height: 44px;
 }
 
+.home-labels {
+  display: flex;
+  flex-direction: row;
+}
+
+.home-spent-label {
+  width: 300px;
+  text-align: right;
+}
+
+.home-budget-label {
+  width: 200px;
+  text-align: center;
+}
+
+.category-item {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+
+.category-name {
+  width: 300px;
+  text-align: left;
+  margin-left: 15px;
+}
+
+.category-budget, .spent-label, .budget-label {
+  justify-content: flex-end;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.spent-label {
+  width: 300px;
+}
+
+.budget-label {
+  width: 200px;
+  text-align: right;
+}
+
+/* SETUP */
+
+.setup-labels {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+#category-name, #category-budget {
+  width: 100px;
+}
+
+.make-category, .remove-button {
+  width: 30px;
+  border: none;
+  margin: 5px 0px;
+}
+
+.categories-list {
+  display: block
+}
+
+.item {
+  line-height: 44px;
+  width: 266px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.setup-name-label {
+  width: 320px;
+}
+
+.setup-budget-label {
+  width: 200px;
+}
+
+
+/* NAV */
+
+.nav {
+  display: flex;
+  background-color: #E3ECC3;
+  justify-content: center;
+  align-self: center;
+  justify-content: center;
+  height: 50px;
+  padding: 20px 10px;
+}
+
+#to-home, #to-setup, #to-data {
+  background-color: #629041;
+  width: 100px;
+  height: 50px;
+  border: none;
+  color: inherit;
+  margin: 0px 20px;
+  font-size: 25px;
+}
+
 @media (min-width: 768px) {
   .header, .content, .nav {
     width: 700px;
+  }
+
+  .setup-labels {
+    width: 500px;
+    margin: 0 auto;
+  }
+
+  .setup-budget-label {
+    text-align: left;
+  }
+
+  .categories-list {
+    width: 265px;
+    margin: 0 auto;
+  }
+
+  .category-item {
+    margin: 0 auto;
+    width: 350px;
+  }
+
+  .home-spent-label {
+    margin-left: 80px;
   }
 }

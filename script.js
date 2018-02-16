@@ -88,7 +88,6 @@ function percent(spent, total) {
 function updateBudgetBar() {
   $(".budget-text").text = totalSpent + " / " + totalBudget;
   $(".remaining-budget-bar").css("width", percent(totalSpent, totalBudget));
-  // $(".remaining-budget-bar").css("background-color", setBarColor());
 }
 
 function removeCategory(index) {
@@ -164,19 +163,17 @@ $(document).ready(function() {
   // SPEND BUTTON
   $(document).on("click", ".category-button", function() {
     $(".message-box").text("");
+    index = $(".category-button").index(this);
     var spentInput = $("#spent").val();
     if (spentInput === "") {
       $(".message-box").text("Please enter a valid number.");
     } else if (!$.isNumeric(spentInput)) {
-      console.log(spentInput);
       $(".message-box").text("You Must Enter a Number");
-    } else if (parseFloat(spentInput) + totalSpent > totalBudget) {
+    } else if (categories[index].spent + parseFloat(spentInput) > categories[index].budget) {
       $(".message-box").text("This is over your budget!");
-    } else if (parseFloat(spentInput) + totalSpent > totalBudget) {
-      $(".message-box").text("This is over your budget!");
-    } else {
+    }  else {
       spent = parseFloat($("#spent").val());
-      index = $(".category-button").index(this);
+
       categories[index].spend(spent);
       updateAll();
     }
