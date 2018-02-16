@@ -18,10 +18,12 @@ class Category {
   getCategory() {
     var string =
       `<div class="item">
-            <button class="remove-button">-</button>
-            <span class="category-name">${this.name}</span>
-            <span class="category-budget">$${this.budget}</span>
-          </div>`;
+        <div>
+          <button class="remove-button">-</button>
+        </div>
+        <div class="category-name">${this.name}</div>
+        <div class="category-budget">$${this.budget}</div>
+      </div>`;
 
     return string;
   }
@@ -29,26 +31,27 @@ class Category {
   createButton() {
 
     $(".home-category-list").append(`
-      <div>
+      <div class = category-item>
         <button class="category-button">${this.name}</button>
-        <span class = "spent-label">
-          ${this.spent} / ${this.budget}
-        </span>
+        <div class = "spent-label">$${this.spent}</div>
+        <div class = "budget-label">$${this.budget}</div>
       </div>`);
   }
 
   renderBarGraph() {
     $(".bar-graph").append(`
-      <div class= "bar" id="bar-${this.name}">
-        <div class = "stat" id="stat-${this.name}">
-          ${this.spent} / ${this.budget}
+      <div class= "bar-label" id="label-${this.name}">
+        <div class = "bar-name" id="name-${this.name}">
+          ${this.name}: $${this.spent} / $${this.budget}
         </div>
+      </div>
+      <div class= "bar" id="bar-${this.name}">
         <div class="spent-bar" id="spent-bar-${this.name}">
         </div>
       </div>
       `);
-    $(`#bar-${this.name}`).css("height", "500px");
-    $(`#spent-bar-${this.name}`).css("height", percent(this.spent, this.budget));
+    $(`#bar-${this.name}`).css("width", "300px");
+    $(`#spent-bar-${this.name}`).css("width", percent(this.spent, this.budget));
   }
 }
 
@@ -69,7 +72,7 @@ function updateAll() {
 function updateTotalBudget() {
   totalSpent = categories.reduce((prevVal, elem) => prevVal + elem.spent, 0);
   totalBudget = categories.reduce((prevVal, elem) => prevVal + elem.budget, 0);
-  $(".total-budget").text(`Your budget remaining is $${totalSpent} out of $${totalBudget}`);
+  $(".total-budget").text(`Your remaining budget: $${totalSpent} out of $${totalBudget}`);
 }
 
 function updateCategories() {
@@ -97,7 +100,6 @@ function removeCategory(index) {
 
 function checkDuplicateName(name) {
   var duplicate = categories.filter(category => (category.name === name));
-  console.log(duplicate);
   if (duplicate.length > 0) {
     return true;
   }
@@ -114,12 +116,21 @@ function updateGraph() {
 
 $(document).ready(function() {
   updateAll();
+  $(".home-content").show();
+  $(".setup-content").hide();
+  $(".data-content").hide();
+  $("#to-home").hide();
+  $("#to-setup").show();
+  $("#to-data").show();
 
   // ADD BUTTON
+  var setupText = $(".setup-message");
+
   $(".make-category").click(function() {
     name = $("#category-name").val();
     budget = parseFloat($("#category-budget").val());
     if (checkDuplicateName(name) === false && budget !== NaN && budget > 0) {
+      setupText.text("");
       categories.push(new Category(name, budget, index));
       updateAll();
       $("#category-name").val("");
@@ -127,7 +138,7 @@ $(document).ready(function() {
       $(".categories-list").append(categories[categories.length - 1].getCategory());
       $("#category-name").focus();
     } else {
-      console.log("Please enter a unique category name and a positive number for the budget.");
+      setupText.text("Check your input fields!");
     }
   });
 
@@ -150,15 +161,17 @@ $(document).ready(function() {
     removeCategory(index);
   });
 
-  // spent button
+  // SPEND BUTTON
   $(document).on("click", ".category-button", function() {
     $(".message-box").text("");
     var spentInput = $("#spent").val();
     if (spentInput === "") {
-      $(".message-box").text("Enter Amount, Then Click! Stupid Idiot");
+      $(".message-box").text("Please enter a valid number.");
     } else if (!$.isNumeric(spentInput)) {
       console.log(spentInput);
       $(".message-box").text("You Must Enter a Number");
+    } else if (parseFloat(spentInput) + totalSpent > totalBudget) {
+      $(".message-box").text("This is over your budget!");
     } else if (parseFloat(spentInput) + totalSpent > totalBudget) {
       $(".message-box").text("This is over your budget!");
     } else {
@@ -170,11 +183,32 @@ $(document).ready(function() {
   });
 
   // HOME BUTTON
-  $(document).on("click", "#to-home", function() {});
+  $(document).on("click", "#to-home", function() {
+    $(".home-content").show();
+    $(".setup-content").hide();
+    $(".data-content").hide();
+    $("#to-home").hide();
+    $("#to-setup").show();
+    $("#to-data").show();
+  });
+
+  // SETUP BUTTON
+  $(document).on("click", "#to-setup", function() {
+    $(".home-content").hide();
+    $(".setup-content").show();
+    $(".data-content").hide();
+    $("#to-home").show();
+    $("#to-setup").hide();
+    $("#to-data").show();
+  });
 
   // DATA BUTTON
   $(document).on("click", "#to-data", function() {
-    $(".bar-graph").empty();
-    updateGraph();
+    $(".home-content").hide();
+    $(".setup-content").hide();
+    $(".data-content").show();
+    $("#to-home").show();
+    $("#to-setup").show();
+    $("#to-data").hide();
   });
 });

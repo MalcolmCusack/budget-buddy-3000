@@ -6,7 +6,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="script.js"></script>
   <link rel="stylesheet" href="stylesheet.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
 </head>
@@ -16,15 +16,10 @@
 
     <!-- HEADER -->
     <div class="header">
-      <div class="title">
-        <h1>Budget Buddy 3000!</h1>
-      </div>
-      <div class="total-budget">
-
-      </div>
+      <div class="title"><h2>Budget Buddy 3000!</h2></div>
+      <div class="total-budget"></div>
       <div class="budget-bar">
-        <div class="remaining-budget-bar">
-        </div>
+        <div class="remaining-budget-bar"></div>
       </div>
     </div>
 
@@ -32,98 +27,50 @@
     <div class="content">
       <!-- HOME -->
       <div class="home-content">
-        <div class="content-title">
-          HOME
-        </div>
-        <div class="budget-text"></div>
+        <div class="content-title">HOME</div>
         <div class="message-box"></div>
+        <div class="budget-text"></div>
+
         <div>
-          <input type="text" id="spent" placeholder="$ spent?">
+          <input type="text" id="spent" placeholder="How much $ spent?">
         </div>
         <div class="home-category-list"></div>
       </div>
 
       <!-- SETUP -->
       <div class="setup-content">
-        <div class="content-title">
-          SETUP
+        <div class="content-title">SETUP</div>
+        <div class="setup-message"></div>
+        <div class="inputs">
+          <button type="button" class="make-category">+</button>
+          <input type="text" id="category-name" placeholder="Name">
+          <input type="text" id="category-budget" placeholder="$ Budget">
+        </div>
+        <div class="setup-labels">
+          <div class="name-label">
+            Name:
+          </div>
+          <div class="budget-label">
+            Budget:
+          </div>
         </div>
         <div class="categories-list">
 
         </div>
-        <div class="inputs">
-          <button type="button" class ="make-category">+</button>
-          <input type="text" id="category-name" placeholder="Name">
-          <input type="text" id="category-budget" placeholder="$ Budget">
-        </div>
       </div>
       <!-- DATA -->
       <div class="data-content">
-        <div class="content-title">
-          DATA
-        </div>
-        <div class="bar-graph">
-
-        </div>
+        <div class="content-title">DATA</div>
+        <div class="bar-graph"></div>
       </div>
+    </div>
 
-
-      <!-- NAV -->
-      <div class="nav">
-        <button id="to-home">HOME</button>
-        <button id="to-setup">SETUP</button>
-        <button id="to-data">DATA</button>
-      </div>
+    <!-- NAV -->
+    <div class="nav">
+      <button id="to-home">HOME</button>
+      <button id="to-setup">SETUP</button>
+      <button id="to-data">DATA</button>
     </div>
 </body>
 
 </html>
-
-
-<!-- <div class="categories-page">
-    <h1>CATEGORIES</h1>
-    <div class="total-budget">
-
-    </div>
-    <div class="categories-list">
-
-    </div>
-    <div class="inputs">
-      <div>
-        <button type="button" class="make-category">+</button>
-        <input type="text" id="category-name" placeholder="Name">
-        <input type="text" id="category-budget" placeholder="Amount">
-      </div>
-      <div class="to-home-page">
-        <button id = "to-home" name="button">Home</button>
-      </div>
-    </div>
-  </div> -->
-<!-- <div class="home-page">
-    <h1>HOME</h1>
-    <div class="title">
-
-    </div>
-    <div class="budget-text">
-    </div>
-
-    <div class="message-box">
-
-    </div>
-    <div>
-      <input type="text" id="spent" placeholder="$ spent?">
-    </div>
-    <div class = "home-category-list">
-    </div>
-    <div>
-    </div>
-    <div class="to-home-page">
-      <button id = "to-data" name="button">Data</button>
-    </div>
-    <div class="data-page">
-      <h1>DATA</h1>
-    </div>
-    <div class="bar-graph">
-
-    </div>
-  </div> -->
